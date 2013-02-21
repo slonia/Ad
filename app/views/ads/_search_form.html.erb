@@ -1,0 +1,21 @@
+<%= search_form_for(@search, url: search_ads_path, method: :post, :html => {class: 'form-inline'}) do |f| %>
+    <%= f.condition_fields do |c| %>
+        <%= c.label "Поиск по" %>
+        <%= c.attribute_fields do |a| %>
+            <%= a.attribute_select associations: [:section] %>
+        <% end %>
+        <%= c.label "Условие" %>
+        <%= c.predicate_select %>
+        <%= c.label "Значение" %>
+        <%= c.value_fields do |v| %>
+            <%= v.text_field :value %>
+        <% end %>
+        <br>
+    <% end %>
+    <%= f.label "Сортировка" %>
+    <%= f.sort_fields do |s| %>
+        <%= s.sort_select %>
+    <% end %>
+    <br>
+    <%= f.submit "Поехали!", class: 'btn' %>
+<% end %>

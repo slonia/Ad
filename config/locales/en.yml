@@ -1,0 +1,28 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en: 
+  views: 
+    pagination: 
+      next: ">"
+      previous: "<"
+      last: ">>"
+      first: "<<"
+  activerecord:
+    models:
+      ad: "Объявление"
+      section: "Раздел"
+  ransack:
+    asc: "По возрастанию"
+    desc: "По убыванию"
+    attributes:
+      ad:
+        title: "Заголовок"
+        description: "Описание"
+        city: "Город"
+        price: "Цена"
+        created_at: "Создано"
+        updated_at: "Обновлено"
+      section:
+        name: "Имя"  
+

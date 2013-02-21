@@ -1,0 +1,5 @@
+<h1>Новое объявление</h1>
+<% if can? :create, @ad %>
+<%= render 'form' %>
+<% end %>
+<%= link_to 'Назад', ads_path, class: 'btn' %>

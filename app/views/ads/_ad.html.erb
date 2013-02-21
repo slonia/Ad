@@ -1,0 +1,26 @@
+<div class="well">
+<h2>
+	<div class="pull-left label label-success"><%= Section.find(ad.section_id).name %></div>
+	<%= ad.title %>
+	<div class="pull-right label label-success"><%= ad.city%></div>
+</h2>
+<div class="desc">
+	<%= ad.description %>
+</div>
+<% ims = Asset.find_all_by_ad_id(ad.id) %>
+<div>
+<% ims.each do |im| %>
+<%= image_tag im.image.url, class: 'small_image' %>
+<% end %>
+</div>
+
+<div style="overflow: hidden">
+	<div class="pull-left">
+		<%= ad.state %>
+	</div>
+	<div class="pull-right">
+		<%= ad.updated_at.to_formatted_s(:db) %>
+	</div>
+</div>
+<%= render 'ads/actions', :ad => ad %>
+</div>

@@ -1,0 +1,20 @@
+<%= simple_nested_form_for @ad, :html => { :class => 'well form-vertical', multipart: true} do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :title, label: 'Название' %>
+    <%= f.input :description, label: 'Описание', :input_html => { :cols => 150, :rows => 5, class: 'span6' } %>
+    <%= f.input :city, label: 'Город' %>
+    <%= f.input :price, label: 'Цена' %>
+    <%= f.label 'Раздел' %>
+    <%= f.select :section_id, options_from_collection_for_select(@sections, 'id', 'name') %>
+    <%= f.hidden_field :user_id, value: current_user.id %>
+    <br>
+    <%= f.fields_for :assets %>
+    <%= f.link_to_add "Загрузить изображение", :assets, class: 'btn btn-primary' %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, 'Отправить', class: 'btn btn-success' %>
+  </div>
+<% end %>
