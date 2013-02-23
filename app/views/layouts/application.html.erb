@@ -10,15 +10,15 @@
 <div class="container" id="main">
 	<div class="top">
     <div class="btn-group pull-left">
-      <%= link_to 'Главная', root_path, class: 'btn btn-mini' %>
+      <%= link_to 'Main page', root_path, class: 'btn btn-mini' %>
     </div>
   <% if user_signed_in? %>
   <div class="pull-right">
   Signed in as <b> <%= current_user.name %></b>
   <div class="btn-group inline">
-    <%= link_to 'Перейти к управлению', manage_path, class: 'btn btn-info btn-mini' %>
-   	<%= link_to "My Profile", edit_user_registration_path, class: 'btn btn-mini'%> 
-    <%= link_to "Sign out", destroy_user_session_path, :method => :delete, class: 'btn btn-mini' %> 
+    <%= link_to 'Manage ads', manage_path, class: 'btn btn-info btn-mini' %>
+   	<%= link_to "My Profile", edit_user_registration_path, class: 'btn btn-mini'%>
+    <%= link_to "Sign out", destroy_user_session_path, :method => :delete, class: 'btn btn-mini' %>
   </div>
 </div>
   <% else %>
@@ -35,7 +35,7 @@
 </div>
 	<% end %>
   <% if notice %>
-  <div class='alert'><%=notice %></div> 
+  <div class='alert'><%=notice %></div>
   <% end %>
 <%= yield %>
 </div>

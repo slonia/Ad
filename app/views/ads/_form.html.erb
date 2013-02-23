@@ -2,19 +2,19 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :title, label: 'Название' %>
-    <%= f.input :description, label: 'Описание', :input_html => { :cols => 150, :rows => 5, class: 'span6' } %>
-    <%= f.input :city, label: 'Город' %>
-    <%= f.input :price, label: 'Цена' %>
-    <%= f.label 'Раздел' %>
+    <%= f.input :title%>
+    <%= f.input :description, :input_html => { :cols => 150, :rows => 5, class: 'span6' } %>
+    <%= f.input :city%>
+    <%= f.input :price%>
+    <%= f.label 'Section' %>
     <%= f.select :section_id, options_from_collection_for_select(@sections, 'id', 'name') %>
     <%= f.hidden_field :user_id, value: current_user.id %>
     <br>
     <%= f.fields_for :assets %>
-    <%= f.link_to_add "Загрузить изображение", :assets, class: 'btn btn-primary' %>
+    <%= f.link_to_add "Add image", :assets, class: 'btn btn-primary' %>
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit, 'Отправить', class: 'btn btn-success' %>
+    <%= f.button :submit, class: 'btn btn-success' %>
   </div>
 <% end %>

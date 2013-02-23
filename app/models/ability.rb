@@ -11,12 +11,12 @@ class Ability
     #     can :read, :all
     #   end
     #
-    # The first argument to `can` is the action you are giving the user 
+    # The first argument to `can` is the action you are giving the user
     # permission to do.
     # If you pass :manage it will apply to every action. Other common actions
     # here are :read, :create, :update and :destroy.
     #
-    # The second argument is the resource the user can perform the action on. 
+    # The second argument is the resource the user can perform the action on.
     # If you pass :all it will apply to every resource. Otherwise pass a Ruby
     # class of the resource.
     #
@@ -41,7 +41,10 @@ class Ability
             article.user==user and (article.reject? or article.archive?)
         end
     elsif user and user.role.admin?
-        can :manage, Section
+        can [:create, :update], Section
+        can [:destroy], Section do |section|
+            Ad.find_all_by_section_id(section.id).empty?
+        end
         can [:destroy], Ad
         can [:reject,:approve], Ad do |article|
             article.ready?

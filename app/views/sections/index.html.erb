@@ -1,19 +1,23 @@
 <h1>Listing sections</h1>
 
-<table>
+<table class="table table-stripped">
   <tr>
     <th>Name</th>
-    <th></th>
-    <th></th>
     <th></th>
   </tr>
 
 <% @sections.each do |section| %>
   <tr>
     <td><%= section.name %></td>
-    <td><%= link_to 'Show', section %></td>
-    <td><%= link_to 'Edit', edit_section_path(section) %></td>
-    <td><%= link_to 'Destroy', section, confirm: 'Are you sure?', method: :delete %></td>
+    <td>
+      <div class="btn-group pull-right">
+        <%= link_to 'Show', section, class: 'btn' %>
+        <%= link_to 'Edit', edit_section_path(section), class: 'btn'  %>
+        <% if can? :destroy, section %>
+          <%= link_to 'Destroy', section, confirm: 'Are you sure?', method: :delete, class: 'btn btn-danger'  %>
+        <% end %>
+      </div>
+    </td>
   </tr>
 <% end %>
 </table>
