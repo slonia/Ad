@@ -28,9 +28,10 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
-    can :read, :all
+    can :read, Ad
+
     if user and user.role.user?
-        can :create, Ad
+        can [:create,:manager], Ad
         can [:update,:ready], Ad do |article|
             article.user==user and article.draft?
         end
@@ -40,14 +41,22 @@ class Ability
         can [:draft], Ad do |article|
             article.user==user and (article.reject? or article.archive?)
         end
+        can [:update], User do |u|
+            u.id==user.id
+        end
     elsif user and user.role.admin?
+        can :read, :all
         can [:create, :update], Section
         can [:destroy], Section do |section|
             Ad.find_all_by_section_id(section.id).empty?
         end
-        can [:destroy], Ad
+        can [:destroy,:manager], Ad
         can [:reject,:approve], Ad do |article|
             article.ready?
+        end
+        can [:update, :create], User
+        can [:destroy], User do |u|
+            u.id!=user.id
         end
     end
   end

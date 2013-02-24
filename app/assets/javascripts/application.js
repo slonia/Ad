@@ -19,7 +19,7 @@ $(function() {
   var fieldsCount,
       maxFieldsCount = 4,
       $addLink = $('a.add_nested_fields');
-  
+
   function toggleAddLink() {
     $addLink.toggle(fieldsCount <= maxFieldsCount)
   }
@@ -32,7 +32,7 @@ $(function() {
   $(document).on('nested:fieldRemoved', function() {
     fieldsCount -= 1;
     toggleAddLink();
-  });  
+  });
 
   // count existing nested fields after page was loaded
   fieldsCount = $('form .fields').length;
@@ -41,4 +41,16 @@ $(function() {
 function ch_sel()
 {
    $('form').removeAttr("action").attr("action", "ads/"+$("#act option:selected").val());
+}
+function ch(obj,num)
+{
+  if ($(obj).prop("checked"))
+  {
+    $("td[id=sel"+num+"]>div").addClass("sel");
+  }
+  else
+  {
+    $("td[id=sel"+num+"]>div").removeClass("sel");
+  }
+
 }

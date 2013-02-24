@@ -43,7 +43,7 @@ class AdsController < ApplicationController
     @sections = Section.order(:name)
     respond_to do |format|
       if @ad.save
-        format.html { redirect_to manage_path, notice: 'Ad was successfully created.' }
+        format.html { redirect_to manage_ads_path, notice: 'Ad was successfully created.' }
         format.json { render json: @ad, status: :created, location: @ad }
       else
         format.html { render action: "new" }
@@ -65,14 +65,24 @@ class AdsController < ApplicationController
       end
     end
   end
-  
+
   Ad.state_machine.states.map(&:name).each do |method|
     define_method method do
       @ads = Ad.find(params[:ad_ids])
       @ads.each do |ad|
         ad.send(method)
       end
-      redirect_to manage_path
+      redirect_to manage_ads_path
+    end
+  end
+
+  def manager
+    if current_user.role.user?
+      @ads = Ad.where(:user_id => current_user.id)
+    elsif current_user.role.admin?
+      @ads = Ad.without_state(:draft)
+    else
+      redirect_to "/", :notice => 'error'
     end
   end
 
@@ -82,7 +92,7 @@ class AdsController < ApplicationController
       ad.destroy
     end
     respond_to do |format|
-      format.html { redirect_to manage_path }
+      format.html { redirect_to manage_ads_path }
       format.json { head :no_content }
     end
   end

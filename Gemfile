@@ -33,6 +33,9 @@ gem 'cancan'
 gem 'enumerize'
 gem 'state_machine'
 gem 'squeel'
+group :development, :test do
+  gem 'rspec-rails'
+end
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

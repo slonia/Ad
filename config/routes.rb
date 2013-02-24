@@ -1,12 +1,13 @@
 Ads::Application.routes.draw do
 
-  
+
   devise_for :users
-  match "manage" => "manage#index", :as => :manage
+  resources :users
   resources :sections
   resources :ads do
   collection do
-    match 'search' => 'ads#index', :via => [:get, :post], :as => :search 
+    match 'manage' => 'ads#manager', :as => :manage
+    match 'search' => 'ads#index', :via => [:get, :post], :as => :search
     match '/destroy' => 'ads#destroy', :as => :destroy
     match 'draft' => 'ads#draft', :as => :draft
     match 'ready' => 'ads#ready', :as => :ready
@@ -15,7 +16,7 @@ Ads::Application.routes.draw do
     match 'publish' => 'ads#publish', :as => :publish
     match 'archive' => 'ads#archive', :as => :archive
   end
-  
+
 end
 
   # The priority is based upon order of creation:

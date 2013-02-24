@@ -9,6 +9,7 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require bootstrap
+ *= require bootstrap-responsive
  *= require_self
  *= require_tree .
 */
@@ -20,7 +21,7 @@ body
 	padding: 15px;
 
 }
-#main 
+#main
 {
 	min-height: 800px;
 	border: 1px solid #e3e3e3;
@@ -32,7 +33,7 @@ body
 {
     max-width: 200px;
     height: auto;
-    width: auto; 
+    width: auto;
     padding: 4px;
 	border: 1px solid #e3e3e3;
 	border-radius: 4px;
@@ -60,8 +61,21 @@ input
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
-.top 
+.top
 {
 	overflow: hidden;
 	margin-bottom: 4px;
+}
+tr .narrow
+{
+	width: 20px;
+	vertical-align: middle;
+}
+.sel
+{
+	border: 1px solid green;
+}
+.man
+{
+	width: 100%;
 }
