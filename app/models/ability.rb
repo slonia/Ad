@@ -39,7 +39,7 @@ class Ability
             article.user==user
         end
         can [:draft], Ad do |article|
-            article.user==user and (article.reject? or article.archive?)
+            article.user_id==user.id and (article.reject? or article.archive?)
         end
         can [:update], User do |u|
             u.id==user.id

@@ -1,2 +1,22 @@
-<p><%= @user.name %></p>
-<p><%= @user.email %></p>
+<table class="table table-bordered">
+  <caption>User</caption>
+  <tbody>
+    <tr>
+      <td>Name: </td>
+      <td><%= @user.name %></td>
+    </tr>
+    <tr>
+      <td>E-mail: </td>
+      <td><%= @user.email %></td>
+    </tr>
+    <tr>
+      <td>Role: </td>
+      <td><%= @user.role %></td>
+    </tr>
+    <tr>
+      <td>Phone: </td>
+      <td><%= @user.phone %></td>
+    </tr>
+  </tbody>
+</table>
+<%= link_to 'edit', edit_user_path(@user), class: 'btn btn-primary' %>

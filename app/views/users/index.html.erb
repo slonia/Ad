@@ -1,6 +1,9 @@
-<h1>All Users</h1>
-
 <table class="table table-striped">
+
+  <caption>
+    Users
+  </caption>
+
   <thead>
     <tr>
       <th>Username</th>
@@ -8,23 +11,30 @@
       <th></th>
     </tr>
   </thead>
-  <tbody>
-    <% @users.each do |user| %>
-    <tr>
-      <td><%= user.name %></td>
-      <td><%= user.role %></td>
-      <td>
-         <div class="btn-group pull-right">
-        <%= link_to 'Show', user, class: 'btn' %>
-        <%= link_to 'Edit', edit_user_path(user), class: 'btn'  %>
-          <%= link_to 'Destroy', user, confirm: 'Are you sure?', method: :delete, class: 'btn btn-danger'  %>
-      </div>
-      </td>
-    </tr>
-    <% end %>
-  </tbody>
 
+  <tbody>
+
+    <% @users.each do |user| %>
+      <tr>
+        <td>
+          <%= user.name %>
+        </td>
+        <td>
+          <%= user.role %>
+        </td>
+        <td>
+          <div class="btn-group pull-right">
+            <%= link_to 'Show', user, class: 'btn' %>
+            <%= link_to 'Edit', edit_user_path(user), class: 'btn'  %>
+            <%= link_to 'Destroy', user, confirm: 'Are you sure?', method: :delete, class: 'btn btn-danger'  %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+
+  </tbody>
 
 </table>
 
-<p><%= link_to "New User", new_user_path %></p>
+<%= paginate @users %>
+<%= link_to "New User", new_user_path, class: 'btn btn-primary' %>

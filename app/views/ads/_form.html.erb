@@ -7,14 +7,14 @@
     <%= f.input :city%>
     <%= f.input :price%>
     <%= f.label 'Section' %>
-    <%= f.select :section_id, options_from_collection_for_select(@sections, 'id', 'name') %>
+    <%= f.select :section_id, options_from_collection_for_select(@sections, 'id', 'name', selected: @ad.section_id) %>
     <%= f.hidden_field :user_id, value: current_user.id %>
     <br>
     <%= f.fields_for :assets %>
-    <%= f.link_to_add "Add image", :assets, class: 'btn btn-primary' %>
+    <%= f.link_to_add "Add image", :assets, class: 'btn btn-info' %>
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit, class: 'btn btn-success' %>
+    <%= f.button :submit, class: 'btn btn-primary' %>
   </div>
 <% end %>

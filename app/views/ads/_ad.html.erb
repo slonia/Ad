@@ -1,7 +1,7 @@
 <div class="well">
 	<h2>
 		<div class="pull-left label label-success"><%= ad.section.name %></div>
-		<%= ad.title %>
+			<%= ad.title %>
 		<div class="pull-right label label-success"><%= ad.city%></div>
 	</h2>
 
@@ -17,13 +17,14 @@
 	</div>
 
 	<div style="overflow: hidden">
-		<div class="pull-left">
-			<%= ad.state %>
+		<div class="badge badge-info pull-left">
+			<%= number_to_currency(ad.price) %>
 		</div>
 		<div class="pull-right">
-
+			<b>
 			<%= username(ad) %>,
 			<%= ad.updated_at.to_formatted_s(:db) %>
+			<b>
 		</div>
 	</div>
 

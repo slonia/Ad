@@ -2,9 +2,10 @@ class AdsController < ApplicationController
   # GET /ads
   # GET /ads.json
   load_and_authorize_resource
+  before_filter :create_sections
   def index
     @search = Ad.with_state(:publish).search(params[:q])
-    @ads = @search.result.page(params[:page]).per(4)
+    @ads = @search.result.page(params[:page]).per(5)
     @search.build_condition if @search.conditions.empty?
     @search.build_sort if @search.sorts.empty?
     respond_to do |format|
@@ -25,7 +26,6 @@ class AdsController < ApplicationController
   # GET /ads/new
   # GET /ads/new.json
   def new
-    @sections = Section.order(:name)
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @ad }
@@ -34,13 +34,11 @@ class AdsController < ApplicationController
 
   # GET /ads/1/edit
   def edit
-    @sections = Section.order(:name)
   end
 
   # POST /ads
   # POST /ads.json
   def create
-    @sections = Section.order(:name)
     respond_to do |format|
       if @ad.save
         format.html { redirect_to manage_ads_path, notice: 'Ad was successfully created.' }
@@ -55,6 +53,7 @@ class AdsController < ApplicationController
   # PUT /ads/1
   # PUT /ads/1.json
   def update
+
     respond_to do |format|
       if @ad.update_attributes(params[:ad])
         format.html { redirect_to @ad, notice: 'Ad was successfully updated.' }
@@ -72,28 +71,31 @@ class AdsController < ApplicationController
       @ads.each do |ad|
         ad.send(method)
       end
-      redirect_to manage_ads_path
+      redirect_to manage_ads_path, notice: "Change ads state to '"+method.to_s+"'"
     end
   end
 
   def manager
     if current_user.role.user?
-      @ads = Ad.where(:user_id => current_user.id)
+      @ads = Ad.where(:user_id => current_user.id).page(params[:page]).per(5)
     elsif current_user.role.admin?
-      @ads = Ad.without_state(:draft)
-    else
-      redirect_to "/", :notice => 'error'
+      @ads = Ad.without_state(:draft).page(params[:page]).per(5)
     end
   end
 
   def destroy
-    @ads = Ad.find(params[:ad_ids])
-    @ads.each do |ad|
-      ad.destroy
+    if params[:ad_ids]
+     @ads = Ad.find(params[:ad_ids])
+     @ads.each{ |ad| ad.destroy }
     end
     respond_to do |format|
-      format.html { redirect_to manage_ads_path }
+      format.html { redirect_to manage_ads_path, notice: "Ads destroyed" }
       format.json { head :no_content }
     end
+  end
+
+  private
+  def create_sections
+    @sections = Section.order(:name)
   end
 end

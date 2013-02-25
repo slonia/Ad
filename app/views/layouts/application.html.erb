@@ -1,40 +1,61 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Ads</title>
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
+
 <body>
+
 <div class="container" id="main">
+
 	<div class="top">
+
     <div class="btn-group pull-left">
       <%= link_to 'Main page', root_path, class: 'btn btn-mini' %>
+      <% if can? :manager, Ad %>
+        <%= link_to 'Manage ads', manage_ads_path, class: 'btn btn-info btn-mini' %>
+      <% end %>
+      <% if user_signed_in? and current_user.role.admin? %>
+        <%= link_to 'Manage users', users_path, class: 'btn btn-info btn-mini' %>
+        <%= link_to 'Manage sections', sections_path, class: 'btn btn-info btn-mini' %>
+      <% end %>
     </div>
-  <% if user_signed_in? %>
-  <div class="pull-right">
-  Signed in as <b> <%= current_user.name %></b>
-  <div class="btn-group inline">
-    <%= link_to 'Manage ads', manage_ads_path, class: 'btn btn-info btn-mini' %>
-    <%= link_to "Sign out", destroy_user_session_path, :method => :delete, class: 'btn btn-mini' %>
-  </div>
-</div>
-  <% else %>
-  <div class="btn-group inline pull-right">
-    <%= link_to "Sign in", new_user_session_path, class: 'btn btn-mini'%>
-  </div>
-  <% end %>
+
+    <% if user_signed_in? %>
+
+      <div class="pull-right">
+        Signed in as <b> <%= link_to current_user.name, edit_user_path(current_user) %></b>
+        <div class="btn-group inline">
+          <%= link_to "Sign out", destroy_user_session_path, :method => :delete, class: 'btn btn-mini' %>
+        </div>
+      </div>
+
+    <% else %>
+
+      <div class="btn-group inline pull-right">
+        <%= link_to "Sign in", new_user_session_path, class: 'btn btn-mini'%>
+      </div>
+
+    <% end %>
+
 	</div>
+
 	<% [:notice, :error, :alert, :success].each do |level| %>
-  <% unless flash[level].blank? %>
-    <div class="<%= flash_class(level) %>">
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-      <%= content_tag :span, flash[level] %>
-    </div>
+    <% unless flash[level].blank? %>
+      <div class="<%= flash_class(level) %>">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <%= content_tag :span, flash[level] %>
+      </div>
+    <% end %>
   <% end %>
-<% end %>
+
 <%= yield %>
+
 </div>
+
 </body>
 </html>

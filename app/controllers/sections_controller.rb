@@ -3,7 +3,7 @@ class SectionsController < ApplicationController
   # GET /sections.json
   load_and_authorize_resource
   def index
-
+    @sections = Section.order(:name).page(params[:page]).per(10)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @sections }

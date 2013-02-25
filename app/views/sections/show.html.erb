@@ -1,10 +1,14 @@
-<p id="notice"><%= notice %></p>
+<table class="table table-bordered">
 
-<p>
-  <b>Name:</b>
-  <%= @section.name %>
-</p>
+  <caption>Section</caption>
 
+  <tbody>
+    <tr>
+      <td>Name: </td>
+      <td><%= @section.name %></td>
+    </tr>
+  </tbody>
 
-<%= link_to 'Edit', edit_section_path(@section) %> |
-<%= link_to 'Back', sections_path %>
+</table>
+
+<%= link_to 'edit', edit_section_path(@section), class: 'btn btn-primary' %>

@@ -1,23 +1,30 @@
 <div class='search'>
 <%= search_form_for(@search, url: search_ads_path, method: :post, :html => {class: 'form-inline'}) do |f| %>
     <%= f.condition_fields do |c| %>
+
         <%= c.label "Search by" %>
+
         <%= c.attribute_fields do |a| %>
             <%= a.attribute_select associations: [:section] %>
         <% end %>
+
         <%= c.label "Condition" %>
         <%= c.predicate_select %>
         <%= c.label "Value" %>
+
         <%= c.value_fields do |v| %>
             <%= v.text_field :value %>
         <% end %>
+
         <br>
     <% end %>
 
     <%= f.label "Sort by" %>
+
     <%= f.sort_fields do |s| %>
         <%= s.sort_select %>
     <% end %>
+
     <br>
 
     <%= f.submit "Search", class: 'btn' %>

@@ -40,7 +40,7 @@ $(function() {
 })
 function ch_sel()
 {
-   $('form').removeAttr("action").attr("action", "ads/"+$("#act option:selected").val());
+  $('form').removeAttr("action").attr("action", $("#act option:selected").val());
 }
 function ch(obj,num)
 {
