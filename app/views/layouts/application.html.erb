@@ -19,7 +19,7 @@
       <% if can? :manager, Ad %>
         <%= link_to 'Manage ads', manage_ads_path, class: 'btn btn-info btn-mini' %>
       <% end %>
-      <% if user_signed_in? and current_user.role.admin? %>
+      <% if user_signed_in? && current_user.role.admin? %>
         <%= link_to 'Manage users', users_path, class: 'btn btn-info btn-mini' %>
         <%= link_to 'Manage sections', sections_path, class: 'btn btn-info btn-mini' %>
       <% end %>

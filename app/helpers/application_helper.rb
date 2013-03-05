@@ -9,11 +9,7 @@ module ApplicationHelper
   end
 
   def username(ad)
-    if ad.user
-      ad.user.name
-    else
-      "[DELETED USER]"
-    end
+    (ad.user && ad.user.name) || "[DELETED USER]"
   end
 
 end

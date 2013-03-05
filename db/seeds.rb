@@ -12,8 +12,40 @@ if Section.all.empty?
 	sect.save!
 	puts "Default section created"
 end
+
 if User.where(:role=> "admin").empty?
-	user = User.new(:name=>"admin",:email=>"admin@admin.ru", :password=>"admin123", :password_confirmation=>"admin123", :role=>:admin)
+	user = User.new(:name=>"admin",:email=>"admin@admin.ru", :password=>"admin123", :password_confirmation=>"admin123")
+  user.role = :admin
 	user.save!
 	puts "Created admin with login 'admin' and password 'admin123'"
+end
+
+if User.where(:role=> "user").empty?
+  user = User.new(:name=>"user",:email=>"user@admin.ru", :password=>"user123", :password_confirmation=>"user123")
+  user.role = :user
+  user.save!
+  puts "Created user with login 'user' and password 'user123'"
+end
+
+if Ad.with_state("ready").empty?
+  ad = Ad.new(:title => "Ready test ad",
+              :description => "Description",
+              :price=>1, :city=>"Test city",
+              :user_id=>User.where(:role=> "user")[0].id,
+              :section_id=>Section.find(:first).id)
+  ad.state = :ready
+  ad.save!
+  puts "Created test Ad"
+end
+
+if Ad.with_state("publish").empty?
+  ad = Ad.new(:title => "Publish test ad",
+              :description => "Description",
+              :price=>1, :city=>"Test city",
+              :user_id=>User.where(:role=> "user")[0].id,
+              :section_id=>Section.find(:first).id,
+              :publish_date=>DateTime.now.to_date)
+  ad.state = :publish
+  ad.save!
+  puts "Created test Ad"
 end

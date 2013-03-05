@@ -2,7 +2,7 @@ require 'spec_helper'
 describe Ad do
 
   context "validation tests" do
-    before(:each) {@ad = Ad.new(title: "Ad for test", description: "Description",city: "Minsk", price: 1, section_id: 1, user_id: 1)}
+    before(:each) {@ad = build(:ad)}
 
     it "is valid with all params" do
       @ad.should be_valid
@@ -35,31 +35,65 @@ describe Ad do
   end
 
   context "state tests" do
-    before(:each) {@ad = Ad.new(title: "Ad for test", description: "Description",city: "Minsk", price: 1, section_id: 1, user_id: 1)}
-
     it "default state is 'draft'" do
+      @ad = build(:ad)
       @ad.should be_draft
     end
 
-    it "checking state path" do
-      @ad.ready                       # from 'draft' to 'ready'
-      puts "\t #{@ad.state}"
+    it "from 'draft' to 'ready'" do
+      @ad = build(:ad)
+      @ad.ready
       @ad.should be_ready
-      @ad.approve                     # from 'ready' to 'approve'
-      puts "\t #{@ad.state}"
+    end
+
+    it "from 'ready' to 'reject'" do
+      @ad = build(:ad,:state=>:ready)
+      @ad.reject
+      @ad.should be_reject
+    end
+
+    it "from 'ready' to 'approve'" do
+      @ad = build(:ad,:state=>:ready)
+      @ad.approve
       @ad.should be_approve
-      @ad.draft                       # from 'approve' to 'draft' - no path, should stay 'approve'
-      puts "\t #{@ad.state}"
-      @ad.should be_approve
-      @ad.publish                     # from 'approve' to 'publish'
-      puts "\t #{@ad.state}"
+    end
+
+    it "from 'approve' to 'publish'" do
+      @ad = build(:ad,:state=>:approve)
+      @ad.publish
       @ad.should be_publish
-      @ad.archive                     # from 'publish' to 'archive'
-      puts "\t #{@ad.state}"
+    end
+
+    it "from 'publish' to 'archive'" do
+      @ad = build(:ad,:state=>:publish)
+      @ad.archive
       @ad.should be_archive
-      @ad.draft                       # from 'archive' to 'draft'
-      puts "\t #{@ad.state}"
-      @ad.should be_draft
+    end
+
+    it "from 'ready' to 'publish' should be 'ready', not 'publish'" do
+      @ad = build(:ad,:state=>:ready)
+      @ad.publish
+      @ad.should_not be_publish
+    end
+  end
+
+  context "ad management" do
+    it "publish all" do
+      @ad1 = create(:ad, :title => 'test1',:state => :approve)
+      @ad2 = create(:ad, :title => 'test2')
+      @ad3 = create(:ad, :title => 'test3',:state => :approve)
+      Ad.pub
+      Ad.with_state(:publish).should include(@ad1,@ad3)
+      Ad.with_state(:publish).should_not include(@ad2)
+    end
+
+    it "archive all" do
+      @ad1 = create(:ad, :title=>'test1',:state => :publish,:publish_date => 5.days.ago)
+      @ad2 = create(:ad, :title=>'test2')
+      @ad3 = create(:ad, :title=>'test3',:state => :publish,:publish_date => 4.days.ago)
+      Ad.arc
+      Ad.with_state(:archive).should include(@ad1,@ad3)
+      Ad.with_state(:archive).should_not include(@ad2)
     end
   end
 

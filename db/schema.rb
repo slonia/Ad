@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130221142107) do
+ActiveRecord::Schema.define(:version => 20130301170910) do
 
   create_table "ads", :force => true do |t|
     t.string   "title"
@@ -19,10 +19,11 @@ ActiveRecord::Schema.define(:version => 20130221142107) do
     t.string   "city"
     t.decimal  "price"
     t.integer  "section_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
     t.integer  "user_id"
     t.string   "state"
+    t.datetime "publish_date"
   end
 
   create_table "assets", :force => true do |t|

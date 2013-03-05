@@ -39,6 +39,7 @@ class AdsController < ApplicationController
   # POST /ads
   # POST /ads.json
   def create
+    @ad.user_id = current_user.id
     respond_to do |format|
       if @ad.save
         format.html { redirect_to manage_ads_path, notice: 'Ad was successfully created.' }
@@ -56,7 +57,7 @@ class AdsController < ApplicationController
 
     respond_to do |format|
       if @ad.update_attributes(params[:ad])
-        format.html { redirect_to @ad, notice: 'Ad was successfully updated.' }
+        format.html { redirect_to manage_ads_path, notice: 'Ad was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

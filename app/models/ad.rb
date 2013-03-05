@@ -1,7 +1,12 @@
 class Ad < ActiveRecord::Base
-	has_many :assets, :dependent => :destroy
+	UNRANSACKABLE_ATTRIBUTES = %w(id,section_id,user_id,state)
+	MULTIPLE_ACTS=[:draft,:ready,:reject,:approve,:destroy]
+
 	belongs_to :section
 	belongs_to :user
+
+	has_many :assets, :dependent => :destroy
+
 	accepts_nested_attributes_for :assets
 
 
@@ -11,8 +16,6 @@ class Ad < ActiveRecord::Base
 	validates :price, :numericality => {:greater_than_or_equal_to => 1}
 	validates :description, :length => { :minimum => 8 }
 
-	UNRANSACKABLE_ATTRIBUTES = ["id","section_id","user_id", "state"]
-	MULTIPLE_ACTS=[:draft,:ready,:reject,:approve,:destroy]
 	state_machine initial: :draft do
 		state :draft
 		state :ready
@@ -46,7 +49,26 @@ class Ad < ActiveRecord::Base
 		end
 
 	end
+
   def self.ransackable_attributes auth_object = nil
     (column_names - UNRANSACKABLE_ATTRIBUTES) + _ransackers.keys
   end
+
+  def self.pub
+  	@ads = Ad.with_state('approve');
+		@ads.each do |ad|
+				ad.publish_date = DateTime.now.to_date
+				ad.publish
+				puts "##{ad.id} #{ad.title} was published"
+		end
+  end
+
+  def self.arc
+  	@ads = Ad.with_state('publish').where{publish_date<= 3.days.ago};
+  	@ads.each do |ad|
+  			ad.archive
+  			puts "##{ad.id} #{ad.title} was archived"
+  		end
+  end
+
 end

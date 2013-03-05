@@ -20,12 +20,14 @@
 		<div class="badge badge-info pull-left">
 			<%= number_to_currency(ad.price) %>
 		</div>
+		<% if ad.publish? %>
 		<div class="pull-right">
 			<b>
 			<%= username(ad) %>,
-			<%= ad.updated_at.to_formatted_s(:db) %>
+			<%= ad.publish_date %>
 			<b>
 		</div>
+		<% end %>
 	</div>
 
 	<%= render 'ads/actions', :ad => ad %>

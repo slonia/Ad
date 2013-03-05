@@ -13,5 +13,7 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+#Ignore db
+/config/database.yml
 # Ignore all images
 /public/system/
