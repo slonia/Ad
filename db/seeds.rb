@@ -44,7 +44,7 @@ if Ad.with_state("publish").empty?
               :price=>1, :city=>"Test city",
               :user_id=>User.where(:role=> "user")[0].id,
               :section_id=>Section.find(:first).id,
-              :publish_date=>DateTime.now.to_date)
+              :publish_date=>Date.today)
   ad.state = :publish
   ad.save!
   puts "Created test Ad"

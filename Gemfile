@@ -34,6 +34,9 @@ gem 'squeel'
 group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+end
+
+group :test do
   gem 'cucumber-rails'
   gem 'database_cleaner'
   gem 'capybara'

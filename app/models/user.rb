@@ -16,8 +16,8 @@ class User < ActiveRecord::Base
   protected
 
   def destroy_draft_ads
-    @ads = Ad.with_state('draft').find_all_by_user_id(id)
-    @ads.each{ |ad| ad.destroy }
+    @ads=self.ads.with_state(:draft)
+    @ads.map(&:destroy)
   end
 
 end

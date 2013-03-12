@@ -24,9 +24,14 @@
         </td>
         <td>
           <div class="btn-group pull-right">
+
             <%= link_to 'Show', user, class: 'btn' %>
-            <%= link_to 'Edit', edit_user_path(user), class: 'btn'  %>
-            <%= link_to 'Destroy', user, confirm: 'Are you sure?', method: :delete, class: 'btn btn-danger'  %>
+            <% if can? :update, user %>
+              <%= link_to 'Edit', edit_user_path(user), class: 'btn'  %>
+            <% end %>
+            <% if can? :destroy, user %>
+              <%= link_to 'Destroy', user, confirm: 'Are you sure?', method: :delete, class: 'btn btn-danger'  %>
+            <% end %>
           </div>
         </td>
       </tr>

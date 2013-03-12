@@ -1,10 +1,10 @@
  namespace :ad do
   task :publish => :environment do
-    Ad.pub
+    Ad.publish_all!
   end
 
 	task :archive => :environment do
-    Ad.arc
+    Ad.archive_all!
   end
 
   task :alert do

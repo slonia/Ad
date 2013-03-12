@@ -2,36 +2,24 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can :read, Ad
-
     if user && user.role.user?
-        can [:create,:manager], Ad
-        can [:update,:ready], Ad do |article|
-            article.user==user && article.draft?
-        end
-        can [:destroy], Ad do |article|
-            article.user==user
-        end
-        can [:draft], Ad do |article|
-            article.user_id==user.id && (article.reject? or article.archive?)
-        end
-        can [:update], User do |u|
-            u.id==user.id
-        end
+      can [:create], Ad
+      can [:update, :ready], Ad, user_id: user.id, state: ['draft']
+      can [:read, :manager, :destroy], Ad, user_id: user.id
+      can [:draft], Ad, user_id: user.id, state: ['reject', 'archive']
+      can [:update], User, id: user.id
     elsif user && user.role.admin?
-        can :read, :all
-        can [:create, :update], Section
-        can [:destroy], Section do |section|
-            Ad.find_all_by_section_id(section.id).empty?
-        end
-        can [:destroy,:manager], Ad
-        can [:reject,:approve], Ad do |article|
-            article.ready?
-        end
-        can [:update, :create], User
-        can [:destroy,:assign_role], User do |u|
-            u.id!=user.id
-        end
+      can [:read], :all
+      can [:create, :update], Section
+      can([:destroy], Section) { |section| section.ads.empty? }
+      can [:manager,:destroy], Ad
+      cannot [:manager,:destroy], Ad, state: ['draft']
+      can [:reject, :approve], Ad, state: ['ready']
+      can [:update, :create], User
+      can [:destroy, :assign_role], User
+      cannot [:destroy, :assign_role], User, :id=>user.id
+    else
+      can [:read], Ad, state: [:publish]
     end
 
   end

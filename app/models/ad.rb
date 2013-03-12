@@ -1,5 +1,5 @@
 class Ad < ActiveRecord::Base
-	UNRANSACKABLE_ATTRIBUTES = %w(id,section_id,user_id,state)
+	UNRANSACKABLE_ATTRIBUTES = %w[id section_id user_id state]
 	MULTIPLE_ACTS=[:draft,:ready,:reject,:approve,:destroy]
 
 	belongs_to :section
@@ -54,21 +54,21 @@ class Ad < ActiveRecord::Base
     (column_names - UNRANSACKABLE_ATTRIBUTES) + _ransackers.keys
   end
 
-  def self.pub
-  	@ads = Ad.with_state('approve');
+  def self.publish_all!
+  	@ads = Ad.with_state('approve')
 		@ads.each do |ad|
-				ad.publish_date = DateTime.now.to_date
-				ad.publish
-				puts "##{ad.id} #{ad.title} was published"
+			ad.publish_date = Date.today
+			ad.publish
+			puts "##{ad.id} #{ad.title} was published"
 		end
   end
 
-  def self.arc
-  	@ads = Ad.with_state('publish').where{publish_date<= 3.days.ago};
+  def self.archive_all!
+  	@ads = Ad.with_state('publish').where{publish_date<= 3.days.ago}
   	@ads.each do |ad|
-  			ad.archive
-  			puts "##{ad.id} #{ad.title} was archived"
-  		end
+      ad.archive
+      puts "##{ad.id} #{ad.title} was archived"
+  	end
   end
 
 end
