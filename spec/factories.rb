@@ -16,4 +16,20 @@ FactoryGirl.define do
     password_confirmation 'cucumber'
   end
 
+  factory :user do
+    name 'User'
+    role :user
+    email 'user@example.com'
+    password 'user123'
+    password_confirmation 'user123'
+  end
+
+  factory :admin do
+    name 'Admin'
+    role :admin
+    email 'admin@example.com'
+    password 'admin123'
+    password_confirmation 'admin123'
+  end
+
 end

@@ -21,7 +21,6 @@ class Ability
     else
       can [:read], Ad, state: [:publish]
     end
-
   end
 
 end

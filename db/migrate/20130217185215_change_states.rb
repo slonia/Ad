@@ -6,5 +6,8 @@ class ChangeStates < ActiveRecord::Migration
   end
 
   def down
+    change_table :ads do |t|
+      t.change :state, :integer
+    end
   end
 end

@@ -4,6 +4,6 @@ class AddPublishDateToAds < ActiveRecord::Migration
   end
 
   def down
-    add_column :ads, :publish_date
+    remove_column :ads, :publish_date
   end
 end

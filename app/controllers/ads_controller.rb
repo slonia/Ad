@@ -1,7 +1,6 @@
 class AdsController < ApplicationController
 
   load_and_authorize_resource
-
   before_filter :create_sections, :only => [:new,:edit]
 
   def index
