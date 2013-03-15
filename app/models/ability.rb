@@ -19,7 +19,7 @@ class Ability
       can [:destroy, :assign_role], User
       cannot [:destroy, :assign_role], User, :id=>user.id
     else
-      can [:read], Ad, state: [:publish]
+      can [:read], Ad, state: ['publish']
     end
   end
 

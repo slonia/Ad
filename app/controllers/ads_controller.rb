@@ -4,7 +4,7 @@ class AdsController < ApplicationController
   before_filter :create_sections, :only => [:new,:edit]
 
   def index
-    @search = Ad.with_state(:publish).search(params[:q])
+    @search = @ads.with_state(:publish).search(params[:q])
     @ads = @search.result.page(params[:page]).per(5)
     @search.build_condition if @search.conditions.empty?
     @search.build_sort if @search.sorts.empty?
