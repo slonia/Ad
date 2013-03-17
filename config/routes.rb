@@ -5,6 +5,7 @@ Ads::Application.routes.draw do
 
   resources :ads do
     collection do
+      match '/index' => 'ads#index'
       match 'manage' => 'ads#manager', :as => :manage
       match 'search' => 'ads#index', :via => [:get, :post], :as => :search
       match '/destroy' => 'ads#destroy', :as => :destroy

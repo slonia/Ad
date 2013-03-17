@@ -1,7 +1,7 @@
 class AdsController < ApplicationController
 
   load_and_authorize_resource
-  before_filter :create_sections, :only => [:new,:edit]
+  before_filter :create_sections, :only => [:new,:edit,:update,:create]
 
   def index
     @search = @ads.with_state(:publish).search(params[:q])
