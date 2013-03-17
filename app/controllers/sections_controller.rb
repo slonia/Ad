@@ -16,22 +16,18 @@ class SectionsController < ApplicationController
   end
 
   def create
-    respond_to do |format|
-      if @section.save
-        format.html { redirect_to @section, notice: 'Section was successfully created.' }
-      else
-        format.html { render action: "new" }
-      end
+    if @section.save
+      redirect_to @section, notice: 'Section was successfully created.'
+    else
+      render action: "new"
     end
   end
 
   def update
-    respond_to do |format|
-      if @section.update_attributes(params[:section])
-        format.html { redirect_to @section, notice: 'Section was successfully updated.' }
-      else
-        format.html { render action: "edit" }
-      end
+    if @section.update_attributes(params[:section])
+      redirect_to @section, notice: 'Section was successfully updated.'
+    else
+      render action: "edit"
     end
   end
 

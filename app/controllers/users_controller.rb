@@ -22,12 +22,10 @@ class UsersController < ApplicationController
     @role = params[:user].delete(:role)
     @user = User.new(params[:user])
     @user.role = @role if can? :assign_role, @user
-    respond_to do |format|
-      if @user.save
-        format.html { redirect_to @user, :notice => 'User was successfully created.' }
-      else
-        format.html { render :action => "new" }
-      end
+    if @user.save
+      redirect_to @user, :notice => 'User was successfully created.'
+    else
+      render :action => "new"
     end
   end
 
@@ -36,13 +34,11 @@ class UsersController < ApplicationController
     params[:user].delete(:role)
     @user = User.find(params[:id])
     @user.role = @role if can? :assign_role, @user
-    respond_to do |format|
-      if @user.update_with_password(params[:user])
-        sign_in(@user, :bypass => true) if @user == current_user
-        format.html { redirect_to @user, :notice => 'User was successfully updated.' }
-      else
-        format.html { render :action => "edit" }
-      end
+    if @user.update_with_password(params[:user])
+      sign_in(@user, :bypass => true) if @user == current_user
+      redirect_to @user, :notice => 'User was successfully updated.'
+    else
+      render :action => "edit"
     end
   end
 

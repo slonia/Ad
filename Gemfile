@@ -34,9 +34,9 @@ gem 'squeel'
 group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
-  gem 'bullet'
-  gem 'uniform_notifier'
-  gem 'ruby-growl'
+  #gem 'bullet'
+  #gem 'uniform_notifier'
+  #gem 'ruby-growl'
 end
 
 group :test do

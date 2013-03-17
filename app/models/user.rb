@@ -19,5 +19,4 @@ class User < ActiveRecord::Base
     @ads=self.ads.with_state(:draft)
     @ads.map(&:destroy)
   end
-
 end

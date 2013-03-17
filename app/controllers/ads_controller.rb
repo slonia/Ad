@@ -5,7 +5,7 @@ class AdsController < ApplicationController
 
   def index
     @search = @ads.with_state(:publish).search(params[:q])
-    @ads = @search.result.page(params[:page]).per(5)
+    @ads = @search.result.includes(:user,:section).page(params[:page]).per(5)
     @search.build_condition if @search.conditions.empty?
     @search.build_sort if @search.sorts.empty?
   end
@@ -22,23 +22,19 @@ class AdsController < ApplicationController
 
   def create
     @ad.user_id = current_user.id
-    respond_to do |format|
-      if @ad.save
-        format.html { redirect_to manage_ads_path, notice: 'Ad was successfully created.' }
-      else
-        format.html { render action: "new" }
-      end
+    if @ad.save
+      redirect_to manage_ads_path, notice: 'Ad was successfully created.'
+    else
+      render action: "new"
     end
   end
 
   def update
     @ad.user_id = current_user.id
-    respond_to do |format|
-      if @ad.update_attributes(params[:ad])
-        format.html { redirect_to manage_ads_path, notice: 'Ad was successfully updated.' }
-      else
-        format.html { render action: "edit" }
-      end
+    if @ad.update_attributes(params[:ad])
+      redirect_to manage_ads_path, notice: 'Ad was successfully updated.'
+    else
+      render action: "edit"
     end
   end
 
@@ -53,13 +49,13 @@ class AdsController < ApplicationController
   end
 
   def manager
-    @ads = Ad.accessible_by(current_ability,:manager).page(params[:page]).per(5)
+    @ads = Ad.accessible_by(current_ability,:manager).includes(:user,:section).page(params[:page]).per(5)
   end
 
   def destroy
     if params[:ad_ids]
      @ads = Ad.find(params[:ad_ids])
-     @ads.each{ |ad| ad.destroy }
+     @ads.map(&:destroy)
     end
     redirect_to manage_ads_path, notice: "Ads destroyed"
   end

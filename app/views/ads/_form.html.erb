@@ -1,9 +1,9 @@
-<%= simple_nested_form_for @ad, :html => { :class => 'well form-vertical', multipart: true} do |f| %>
+<%= simple_nested_form_for @ad, :html => { class: 'well form-vertical', multipart: true} do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
     <%= f.input :title%>
-    <%= f.input :description, :input_html => { :cols => 150, :rows => 5, class: 'span6' } %>
+    <%= f.input :description, :input_html => { cols: 150, rows: 5, class: 'span6' } %>
     <%= f.input :city%>
     <%= f.input :price%>
     <%= f.label 'Section' %>

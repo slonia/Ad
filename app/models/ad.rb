@@ -1,4 +1,6 @@
 class Ad < ActiveRecord::Base
+  include RansackableAttributes
+
 	UNRANSACKABLE_ATTRIBUTES = %w[id section_id user_id state]
 	MULTIPLE_ACTS=[:draft,:ready,:reject,:approve,:destroy]
 
@@ -49,10 +51,6 @@ class Ad < ActiveRecord::Base
 
 	end
 
-  def self.ransackable_attributes auth_object = nil
-    (column_names - UNRANSACKABLE_ATTRIBUTES) + _ransackers.keys
-  end
-
   def self.publish_all!
   	@ads = Ad.with_state('approve')
 		@ads.each do |ad|
@@ -69,5 +67,4 @@ class Ad < ActiveRecord::Base
       puts "##{ad.id} #{ad.title} was archived"
   	end
   end
-
 end

@@ -47,31 +47,31 @@ describe Ad do
     end
 
     it "from 'ready' to 'reject'" do
-      @ad = build(:ad,:state=>:ready)
+      @ad = build(:ad, state: :ready)
       @ad.reject
       @ad.should be_reject
     end
 
     it "from 'ready' to 'approve'" do
-      @ad = build(:ad,:state=>:ready)
+      @ad = build(:ad, state: :ready)
       @ad.approve
       @ad.should be_approve
     end
 
     it "from 'approve' to 'publish'" do
-      @ad = build(:ad,:state=>:approve)
+      @ad = build(:ad, state: :approve)
       @ad.publish
       @ad.should be_publish
     end
 
     it "from 'publish' to 'archive'" do
-      @ad = build(:ad,:state=>:publish)
+      @ad = build(:ad, state: :publish)
       @ad.archive
       @ad.should be_archive
     end
 
     it "from 'ready' to 'publish' should be 'ready', not 'publish'" do
-      @ad = build(:ad,:state=>:ready)
+      @ad = build(:ad, state: :ready)
       @ad.publish
       @ad.should_not be_publish
     end
@@ -79,20 +79,20 @@ describe Ad do
 
   context "ad management" do
     it "publish all" do
-      @ad1 = create(:ad, :title => 'test1',:state => :approve)
-      @ad2 = create(:ad, :title => 'test2')
-      @ad3 = create(:ad, :title => 'test3',:state => :approve)
-      Ad.pub
-      Ad.with_state(:publish).should include(@ad1,@ad3)
+      @ad1 = create(:ad, title: 'test1', state: :approve)
+      @ad2 = create(:ad, title: 'test2')
+      @ad3 = create(:ad, title: 'test3', state: :approve)
+      Ad.publish_all!
+      Ad.with_state(:publish).should include(@ad1, @ad3)
       Ad.with_state(:publish).should_not include(@ad2)
     end
 
     it "archive all" do
-      @ad1 = create(:ad, :title=>'test1',:state => :publish,:publish_date => 5.days.ago)
-      @ad2 = create(:ad, :title=>'test2')
-      @ad3 = create(:ad, :title=>'test3',:state => :publish,:publish_date => 4.days.ago)
-      Ad.arc
-      Ad.with_state(:archive).should include(@ad1,@ad3)
+      @ad1 = create(:ad, title: 'test1', state: :publish, publish_date: 5.days.ago)
+      @ad2 = create(:ad, title: 'test2')
+      @ad3 = create(:ad, title: 'test3', state: :publish, publish_date: 4.days.ago)
+      Ad.archive_all!
+      Ad.with_state(:archive).should include(@ad1, @ad3)
       Ad.with_state(:archive).should_not include(@ad2)
     end
   end

@@ -5,23 +5,23 @@
 	<% end %>
 
 	<% if can? :draft, ad %>
-		<%= link_to 'Draft!', draft_ads_path(:ad_ids=>[ad.id]),class: 'btn btn-info btn-small' %>
+		<%= link_to 'Draft!', draft_ads_path(ad_ids: [ad.id]),class: 'btn btn-info btn-small' %>
 	<% end %>
 
 	<% if can? :ready, ad %>
-		<%= link_to 'Ready', ready_ads_path(:ad_ids=>[ad.id]),class: 'btn btn-success btn-small' %>
+		<%= link_to 'Ready', ready_ads_path(ad_ids: [ad.id]),class: 'btn btn-success btn-small' %>
 	<% end %>
 
 	<% if can? :reject, ad %>
-		<%= link_to 'Reject', reject_ads_path(:ad_ids=>[ad.id]),class: 'btn btn-danger btn-small' %>
+		<%= link_to 'Reject', reject_ads_path(ad_ids: [ad.id]),class: 'btn btn-danger btn-small' %>
 	<% end %>
 
 	<% if can? :approve, ad %>
-		<%= link_to 'Approve', approve_ads_path(:ad_ids=>[ad.id]),class: 'btn btn-success btn-small' %>
+		<%= link_to 'Approve', approve_ads_path(ad_ids: [ad.id]),class: 'btn btn-success btn-small' %>
 	<% end %>
 
 	<% if can? :destroy, ad %>
-		<%= link_to 'Remove', destroy_ads_path(:ad_ids=>[ad.id]), class: 'btn btn-danger btn-small' %>
+		<%= link_to 'Remove', destroy_ads_path(ad_ids: [ad.id]), class: 'btn btn-danger btn-small' %>
 	<% end %>
 
 </div>

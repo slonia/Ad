@@ -22,5 +22,4 @@ class Ability
       can [:read], Ad, state: ['publish']
     end
   end
-
 end
