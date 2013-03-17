@@ -1,8 +1,8 @@
 ### UTILITY METHODS ###
 
-def create_visitor
+def create_visitor(role = :user)
   @visitor ||= { :name => "Cucumber", :email => "example@example.com",
-    :password => "cucumber", :password_confirmation => "cucumber" }
+    :password => "cucumber", :password_confirmation => "cucumber", :role=> role }
 end
 
 def find_user
@@ -10,8 +10,8 @@ def find_user
 end
 
 
-def create_user
-  create_visitor
+def create_user(role = :user)
+  create_visitor(role)
   delete_user
   @user = FactoryGirl.create(:cuc_user, @visitor)
 end
@@ -44,8 +44,13 @@ Given /^I am not logged in$/ do
   visit '/users/sign_out'
 end
 
-Given /^I am logged in$/ do
-  create_user
+Given /^I am logged as user$/ do
+  create_user(:user)
+  sign_in
+end
+
+Given /^I am logged as admin$/ do
+  create_user(:admin)
   sign_in
 end
 
@@ -58,14 +63,16 @@ Given /^I do not exist as a user$/ do
   delete_user
 end
 
-Given /^I am user$/ do
-  role = :admin
-end
-
 ### WHEN ###
+
+
 When /^I sign in with valid credentials$/ do
   create_visitor
   sign_in
+end
+
+When /^I open new user page$/ do
+  visit '/users/new'
 end
 
 When /^I sign out$/ do
@@ -105,6 +112,15 @@ When /^I return to the site$/ do
   visit '/'
 end
 
+When /^I open my edit page$/ do
+  visit edit_user_path(@user)
+end
+
+When /^I open other user edit page$/ do
+  @u = FactoryGirl.create(:user)
+  visit edit_user_path(@u)
+end
+
 When /^I sign in with a wrong name$/ do
   @visitor = @visitor.merge(:name => "wrongName")
   sign_in
@@ -115,16 +131,6 @@ When /^I sign in with a wrong password$/ do
   sign_in
 end
 
-When /^I edit my account details$/ do
-  click_link "Edit account"
-  fill_in "user_name", :with => "newname"
-  fill_in "user_current_password", :with => @visitor[:password]
-  click_button "Update"
-end
-
-When /^I look at the list of users$/ do
-  visit '/'
-end
 
 When /^I create ad$/ do
   visit '/ads/new'
@@ -181,12 +187,24 @@ Then /^I should see an account edited message$/ do
   page.should have_content "You updated your account successfully."
 end
 
+Then /^I should see sign up form$/ do
+  page.should have_content "New user"
+end
+
+Then /^I should see an edit form$/ do
+  page.should have_content "Editing user"
+end
+
+Then /^I should see change role select$/ do
+  page.should have_content "Role"
+end
+
 Then /^I should see my name$/ do
   create_user
   page.should have_content @user[:name]
 end
 
-Then /^I should see a access denied message$/ do
+Then /^I should see an access denied message$/ do
   page.should have_content "Access denied"
 end
 

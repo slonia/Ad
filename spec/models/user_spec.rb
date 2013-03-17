@@ -1,7 +1,8 @@
 require 'spec_helper'
+
 describe User do
   context "ad management" do
-    it "destroy draft with user" do
+    it "destroy draft ads with user" do
       @user = create(:user)
       @ad1 = create(:ad, user_id: @user.id)
       @ad2 = create(:ad,title: 'other', state: 'publish', user_id: @user.id)
@@ -10,5 +11,4 @@ describe User do
       Ad.where(user_id: @user.id).should include(@ad2)
     end
   end
-
 end

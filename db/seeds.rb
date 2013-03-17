@@ -31,7 +31,7 @@ if Ad.with_state("ready").empty?
   ad = Ad.new(:title => "Ready test ad",
               :description => "Description",
               :price=>1, :city=>"Test city",
-              :user_id=>User.where(:role=> "user")[0].id,
+              :user_id=>User.where(:role=> "user").first.id,
               :section_id=>Section.find(:first).id)
   ad.state = :ready
   ad.save!
@@ -42,7 +42,7 @@ if Ad.with_state("publish").empty?
   ad = Ad.new(:title => "Publish test ad",
               :description => "Description",
               :price=>1, :city=>"Test city",
-              :user_id=>User.where(:role=> "user")[0].id,
+              :user_id=>User.where(:role=> "user").first.id,
               :section_id=>Section.find(:first).id,
               :publish_date=>Date.today)
   ad.state = :publish
